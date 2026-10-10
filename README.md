@@ -1,4 +1,5 @@
-# Cybersecurity & Ethical Hacking Internship - Task 1
+# Cybersecurity & Ethical Hacking Internship 
+**Cybersecurity & Ethical Hacking Internship - Task 1**
 
 **Company:** ApexPlanet Software Pvt. Ltd.  
 **Domain:** Cybersecurity & Ethical Hacking  
@@ -100,3 +101,112 @@ openssl enc -d -aes-256-cbc -pbkdf2 -in secret.enc -out decrypted.txt     # Decr
 
 # SHA-256 Hashing
 sha256sum secret.txt     # Generate SHA-256 checksum to verify file integrity. 
+```
+
+``                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       **# 🛡️Cybersecurity & Ethical Hacking Internship - Task 2**
+
+**Company:** ApexPlanet Software Pvt. Ltd.  
+**Domain:** Cybersecurity & Ethical Hacking  
+**Task Name:** Network Security & Scanning  
+**Timeline:** Days 13–24  
+
+---
+
+## 📌 Objective
+To perform reconnaissance, scanning, network traffic analysis, vulnerability assessment, and configure host-based firewalls in a secure virtual lab environment.
+
+---
+
+## 🛠️ Lab Setup & Target Topology
+- **Attacker Machine:** Kali Linux (Rolling Release)
+- **Target Machine:** Metasploitable2 / Test VM
+- **Network Mode:** Host-Only Private Subnet (Isolated Virtual Lab)
+- **Tools Utilized:** Nmap, Tenable Nessus, Wireshark, hping3, iptables, WHOIS, Nslookup
+
+---
+
+## 📖 Key Concepts & Technical Overview
+
+### 1. Reconnaissance (Information Gathering)
+- **Passive Reconnaissance:** Gathering domain and DNS details without directly interacting with the target system to avoid detection.
+- **Active Reconnaissance:** Probing the target network directly using ICMP and ARP sweeps to discover live hosts.
+
+### 2. Port & Service Scanning
+- **Stealth Scanning (TCP SYN):** Sending TCP SYN packets to identify open ports without completing the full three-way handshake.
+- **Service & OS Detection:** Interrogating open ports to extract banner information, service versions, and operating system fingerprints.
+
+### 3. Vulnerability Scanning
+- **Automated Scanning:** Using Tenable Nessus to scan target ports against CVE databases, identifying missing security patches, weak configurations, and exploitable flaws.
+
+### 4. Packet Analysis & Traffic Inspection
+- **Packet Sniffing:** Capturing live traffic using Wireshark to isolate sensitive plain-text data (e.g., FTP logins, HTTP POST parameters).
+- **Attack Simulation:** Generating TCP SYN flood traffic using `hping3` to analyze Denial-of-Service (DoS) behavior in packet captures.
+
+### 5. Host-Based Firewall Configuration
+- **Packet Filtering (`iptables`):** Configuring Linux netfilter rules to enforce access policies, manage port permissions, and drop unauthorized ping/scan requests.
+
+---
+
+## 📖 Step-by-Step Execution Guide & Commands
+
+### Step 1: Reconnaissance (Information Gathering)
+```bash
+# Passive Reconnaissance - Domain & DNS Lookups
+whois example.com
+nslookup example.com
+
+# Active Reconnaissance - Ping Sweep for Live Hosts
+nmap -sn 192.168.1.0/24
+**Step 2: Port & Service Scanning (Nmap)**
+Bash
+# TCP SYN Stealth Scan
+sudo nmap -sS <Target_IP>
+
+# UDP Port Scan
+sudo nmap -sU <Target_IP>
+
+# Service Version Detection
+sudo nmap -sV <Target_IP>
+
+# Operating System Fingerprinting
+sudo nmap -O <Target_IP>
+
+# Comprehensive Scan & Export Output to File
+sudo nmap -sS -sV -O -p- -oN nmap_report.txt <Target_IP>
+**Step 3: Vulnerability Scanning (Tenable Nessus)**
+Bash
+# Start Nessus Service
+sudo systemctl start nessusd
+
+# 1. Open browser and navigate to: https://localhost:8834
+# 2. Select "New Scan" -> "Basic Network Scan"
+# 3. Enter Target IP (Metasploitable2) and execute scan
+# 4. Export findings as PDF/HTML report
+**Step 4: Packet Analysis with Wireshark & Traffic Simulation**
+Bash
+# Launch Wireshark
+sudo wireshark
+
+# Wireshark Filter Expressions:
+# - FTP Plain-text Credentials: ftp
+# - HTTP POST Data: http.request.method == "POST"
+# - TCP SYN Packets: tcp.flags.syn == 1 and tcp.flags.ack == 0
+
+# Simulate SYN Flood Attack (hping3)
+sudo hping3 -S --flood -p 80 <Target_IP>
+**Step 5: Firewall Rules Configuration (iptables)**
+Bash
+# View Active Firewall Rules
+sudo iptables -L -v -n
+
+# Allow Inbound Traffic on HTTP Port 80
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# Block Inbound Traffic on SSH Port 22
+sudo iptables -A INPUT -p tcp --dport 22 -j DROP
+
+# Drop ICMP Echo Requests (Block Ping / Port Scan Discovery)
+sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+# Clear/Flush All Rules (Reset)
+sudo iptables -F
