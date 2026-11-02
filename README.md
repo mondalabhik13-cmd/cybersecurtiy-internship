@@ -210,3 +210,62 @@ sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
 
 # Clear/Flush All Rules (Reset)
 sudo iptables -F
+```
+
+```
+-------------------------------------------------------------------------------------------------------------------------------
+# 🛡️ Cybersecurity & Ethical Hacking Internship - Task 3
+
+**Company:** ApexPlanet Software Pvt. Ltd.  
+**Domain:** Cybersecurity & Ethical Hacking  
+**Task Name:** Web Application Security  
+**Timeline:** Days 25–36  
+
+---
+
+## 📌 Objective
+To identify, exploit, and mitigate OWASP Top 10 vulnerabilities within a controlled web application lab environment.
+
+---
+
+## 🛠️ Lab Setup & Target Topology
+- **Attacker Machine:** Kali Linux (Rolling Release)
+- **Target Application:** DVWA (Damn Vulnerable Web App) / bWAPP
+- **Primary Tools:** Burp Suite (Advanced Proxy & Intruder), Apache Web Server, Browser Developer Tools, securityheaders.com
+
+---
+
+## 📖 Key Concepts & Technical Overview
+
+### 1. SQL Injection (SQLi)
+- **Mechanism:** Injecting malicious SQL statements through application input fields to manipulate backend database queries.
+- **Impact & Prevention:** Allows attackers to bypass authentication or extract sensitive records; mitigated using Prepared Statements and Parameterized Queries.
+
+### 2. Cross-Site Scripting (XSS)
+- **Stored XSS:** Malicious scripts are permanently stored on the target server (e.g., in a database or comment section) and executed when victims view the content.
+- **Reflected XSS:** Scripts are reflected off a web server via an immediate HTTP request, often embedded inside crafted URLs.
+- **Mitigation:** Strict Input Validation, Output Encoding, and Content Security Policy (CSP) implementation.
+
+### 3. Cross-Site Request Forgery (CSRF)
+- **Mechanism:** Tricking an authenticated user into executing unwanted actions on a web application in which they are currently logged in.
+- **Mitigation:** Implementation of unique anti-CSRF tokens and SameSite cookie attributes.
+
+### 4. File Inclusion Attacks
+- **Local File Inclusion (LFI):** Exploiting vulnerable input handling to read sensitive local files on the server (e.g., `/etc/passwd`).
+- **Remote File Inclusion (RFI):** Forcing the application to load remote malicious scripts from an external server, leading to Remote Code Execution (RCE).
+
+### 5. Burp Suite Advanced & Web Headers
+- **Traffic Interception & Fuzzing:** Using Burp Proxy to capture and modify login requests, and Burp Intruder to automate fuzzing attacks.
+- **Security Headers:** Analyzing missing headers via securityheaders.com and hardening web servers by configuring secure HTTP headers (e.g., HSTS, CSP, X-Frame-Options).
+
+---
+
+## 📖 Step-by-Step Execution Guide & Commands
+
+### Step 1: SQL Injection (SQLi)
+```bash
+# 1. Access DVWA via Kali Linux browser and navigate to SQL Injection module
+# 2. Test input field with basic payload: 
+' OR '1'='1
+# 3. Extract database details, table names, and user credentials
+# 4. Analyze vulnerable PHP backend source code and implement Prepared Statements
